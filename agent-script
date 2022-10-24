@@ -1,0 +1,126 @@
+#!/bin/bash
+
+## Author: Olu
+## Date: October 2022
+
+if
+ [ root == Centos7 server ]
+then
+echo "Apache server configuration... may take few minutes, please"
+yum install httpd -y
+if 
+ [ $? -eq 0 ]
+then
+systemctl status httpd
+systemctl start httpd
+systemctl enable httpd
+if 
+ [ $? -eq 0 ]
+then
+ifconfig
+else
+firewall-cmd --permanent --add-port=80/tcp
+firewall-cmd --reload
+if 
+ [ $? -eq 0 ]
+then
+systemctl start httpd
+systemctl enable httpd
+systemctl status httpd
+echo "Configuration completed! You can cd /var/www/html , add an index.html file to replace the default content on the browser. Thank you"
+fi
+
+if 
+ [ root == Ubuntu server ]
+then
+echo "Installing packages on Ubuntu"
+
+apt-get install wget -y
+if [ $? -eq 0 ]
+then
+apt-get install net-utils -y
+if [ $? -eq 0 ]
+then
+apt-get install sysstat -y
+if [ $? -eq 0 ]
+then
+apt-get install finger -y
+if [ $? -eq 0 ]
+then
+apt-get install gcc -y
+if [ $? -eq 0 ]
+then
+apt-get install make -y
+if [ $? -eq 0 ]
+then
+apt-get install python3 -y
+if [ $? -eq 0 ]
+then
+apt-get install epel-release -y
+if [ $? -eq 0 ]
+then
+echo "Installation completed"
+fi
+
+if [ root == alpine server ]
+then
+echo "Installing packages on alpine"
+
+apt add wget -y
+if [ $? -eq 0 ]
+then
+apt add net-utils -y
+if [ $? -eq 0 ]
+then
+apt add sysstat -y
+if [ $? -eq 0 ]
+then
+apt add finger -y
+if [ $? -eq 0 ]
+then
+apt add gcc -y
+if [ $? -eq 0 ]
+then
+apt add make -y
+if [ $? -eq 0 ]
+then
+apt add python3 -y
+if [ $? -eq 0 ]
+then
+apt add epel-release -y
+if [ $? -eq 0 ]
+then
+echo "Installation completed"
+fi
+
+if [ root == docker ]
+then
+
+echo "starting docker installation, this will take a few minute..."
+
+yum check-update
+if [ $? -eq 0 ]
+then
+yum install -y yum-utils device-mapper-persistent-data lvm2
+if [ $? -eq 0 ]
+then
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+if [ $? -eq 0 ]
+then
+yum install docker
+if [ $? -eq 0 ]
+then
+systemctl start docker
+if [ $? -eq 0 ]
+then
+systemctl enable docker
+if [ $? -eq 0 ]
+then
+systemctl status docker
+if [ $? -eq 0 ]
+then
+docker run hello-world
+if [ $? -eq 0 ]
+then
+echo "hello-world"
+fi
